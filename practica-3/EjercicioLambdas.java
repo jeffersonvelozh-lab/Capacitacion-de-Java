@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 
 public class EjercicioLambdas {
     public static void main(String[] args) {
-        List<String> nombres = List.of("  ana", "PEDRO  ", "maria", "luis ", "  SOFIA");
+        List<String> nombres = List.of("  anais", "PEDRO  ", "maria", "luis ", "  SOFIA", "JeffersoN  ");
 
         Predicate<Integer> esPar = n -> n % 2 == 0;
         Function<String, String> quitarEspacios = String::trim;
