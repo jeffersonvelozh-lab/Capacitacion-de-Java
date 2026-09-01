@@ -1189,7 +1189,7 @@ Optional<String> maybe = opt.flatMap(s -> buscar(s));  // buscar() devuelve Opti
 1. Crear método `buscarUsuario` que retorne `Optional<Usuario>`
 2. Usar `map` para obtener el email del usuario
 3. Usar `filter` para verificar que el email no esté vacío
-4. Usar `orElse` para提供er un valor por defecto
+4. Usar `orElse` para proveer un valor por defecto
 5. Refactorizar código existente con null checks usando Optional
 
 **Solución esperado:** Código sin null checks manuales, usando Optional encadenado.
