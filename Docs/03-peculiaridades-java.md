@@ -1215,4 +1215,4 @@ Optional<String> maybe = opt.flatMap(s -> buscar(s));  // buscar() devuelve Opti
 | `Optional` | Remedio a null, encadenable |
 
 ### Siguiente módulo
-→ [Módulo 4: Introducción a Spring Boot](04-springboot-intro.md)
+→ [Módulo 4: Introducción a Spring Boot](04-springboot-intro-1.md)
