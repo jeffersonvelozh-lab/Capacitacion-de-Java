@@ -1,4 +1,4 @@
-package com.integrity.demo;
+package com.practica.demo;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
