@@ -1,0 +1,146 @@
+{
+  "info": {
+    "_postman_id": "f51dfb44-3b0b-416f-a3ef-404dea4fdfea",
+    "name": "Pruebas crud java",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "53290369",
+    "_collection_link": "https://go.postman.co/collection/53290369-f51dfb44-3b0b-416f-a3ef-404dea4fdfea?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "ObtenerPokemonPorId",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/pokemones/2",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "pokemones",
+            "2"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "ObtenerListaPokemones",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/pokemones",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "pokemones"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "CrearPokemon",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"nombre\":\"Squire\",\r\n\"tipos\":[\"Acuatico\"],\r\n\"nivel\":20,\r\n\"stats\": {\"vida\":50,\r\n    \"ataque\":70,\r\n    \"defensa\":50,\r\n    \"velocidad\":100\r\n    }\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/pokemones",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "pokemones"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "ActualizarPokemon",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"nombre\":\"Squire\",\r\n\"tipos\":[\"Acuatico\"],\r\n\"nivel\":20,\r\n\"stats\": {\"vida\":50,\r\n    \"ataque\":70,\r\n    \"defensa\":50,\r\n    \"velocidad\":100\r\n    }\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/pokemones/3",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "pokemones",
+            "3"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "EliminarUnPokemon",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/pokemones/3",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "pokemones",
+            "3"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Saludo",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/saludo",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "saludo"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
