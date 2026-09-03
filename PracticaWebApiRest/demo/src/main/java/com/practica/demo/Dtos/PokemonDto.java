@@ -1,6 +1,7 @@
 package com.practica.demo.Dtos;
 
 import java.util.List;
+import jakarta.validation.constraints.*;
 
 public record PokemonDto( 
     int id, 
@@ -10,9 +11,9 @@ public record PokemonDto(
     Stats stats 
 ) { 
     public record Stats(
-        int vida, 
-        int ataque, 
-        int defensa, 
-        int velocidad
+        @Min(1) int vida, 
+        @Min(1) int ataque, 
+        @Min(0) int defensa, 
+        @Min(1) int velocidad
     ) {} 
 }

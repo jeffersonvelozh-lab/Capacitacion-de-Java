@@ -13,6 +13,9 @@ import com.practica.demo.Dtos.MensajeResponse;
 import com.practica.demo.Dtos.PokemonDto;
 import com.practica.demo.Dtos.PokemonInputDTO;
 import com.practica.demo.Services.PokemonService;
+
+import jakarta.validation.Valid;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -41,14 +44,14 @@ public class PokemonController {
 
 
     @PostMapping
-    public ResponseEntity<PokemonDto> crear(@RequestBody PokemonInputDTO datos) {
+    public ResponseEntity<PokemonDto> crear(@Valid @RequestBody PokemonInputDTO datos) {
         PokemonDto creado = service.crear(datos);
         return ResponseEntity.status(201).body(creado);
     }
 
 
     @PutMapping("/{id}")
-    public PokemonDto actualizar (@PathVariable int id, @RequestBody PokemonInputDTO datos ) {
+    public PokemonDto actualizar (@PathVariable int id, @Valid @RequestBody PokemonInputDTO datos ) {
         return service.actualizar(id, datos);
     }
 
