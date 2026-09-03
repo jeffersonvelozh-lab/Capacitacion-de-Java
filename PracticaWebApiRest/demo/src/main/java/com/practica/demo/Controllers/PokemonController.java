@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.practica.demo.Dtos.MensajeResponse;
 import com.practica.demo.Dtos.PokemonDto;
 import com.practica.demo.Dtos.PokemonInputDTO;
 import com.practica.demo.Services.PokemonService;
@@ -34,10 +35,8 @@ public class PokemonController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<PokemonDto> buscarPorId(@PathVariable int id) {
-        return service.buscarPorId(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public PokemonDto buscarPorId(@PathVariable int id) {
+        return service.buscarPorId(id);
     }
 
 
@@ -49,17 +48,14 @@ public class PokemonController {
 
 
     @PutMapping("/{id}")
-    public ResponseEntity<PokemonDto> actualizar (@PathVariable int id, @RequestBody PokemonInputDTO datos ) {
-        return service.actualizar(id, datos)
-            .map(ResponseEntity::ok)
-            .orElse(ResponseEntity.notFound().build());
+    public PokemonDto actualizar (@PathVariable int id, @RequestBody PokemonInputDTO datos ) {
+        return service.actualizar(id, datos);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> eliminar(@PathVariable int id) {
-        return service.eliminar(id)
-            ? ResponseEntity.noContent().build()
-            : ResponseEntity.notFound().build();
+    public MensajeResponse eliminar(@PathVariable int id) {
+        service.eliminar(id);
+        return new MensajeResponse("Pokemon con el id " + id + " eliminado correctamente");
     }
 
 
