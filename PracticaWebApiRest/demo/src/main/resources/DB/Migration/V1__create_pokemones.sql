@@ -1,0 +1,9 @@
+CREATE TABLE pokemones (
+    id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    nombre VARCHAR(255) NOT NULL,
+    nivel INTEGER NOT NULL,
+    vida INTEGER NOT NULL,
+    ataque INTEGER NOT NULL,
+    defensa INTEGER NOT NULL,
+    velocidad INTEGER NOT NULL
+);
