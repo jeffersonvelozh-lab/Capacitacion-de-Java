@@ -1,33 +1,44 @@
 package com.gestiontarea.demo.application.service;
 
+import com.gestiontarea.demo.infrastructure.adapter.out.persistence.repository.UsuarioJpaRepository;
+import org.springframework.stereotype.Service;
+
 import com.gestiontarea.demo.application.port.in.RegistrarUsuarioUseCase;
 import com.gestiontarea.demo.application.port.out.PasswordHasherPort;
 import com.gestiontarea.demo.application.port.out.UsuarioRepositoryPort;
+import com.gestiontarea.demo.domain.models.Rol;
 import com.gestiontarea.demo.domain.models.Usuario;
+import com.gestiontarea.demo.exception.EmailYaRegistradoException;
 
-/**
- * TODO: implementa siguiendo el patron de ServicioAutenticacion.
- * Pasos sugeridos:
- *   1. Verificar que el email no exista ya (usuarioRepository.existePorEmail)
- *      -> si existe, lanzar una excepcion de dominio (EmailYaRegistradoException)
- *   2. Hashear el password con passwordHasher.hashear(...)
- *   3. Construir el Usuario de dominio (rol USER por defecto, activo=true)
- *   4. Guardarlo con usuarioRepository.guardar(...)
- */
-
+@Service 
 public class ServicioRegistroUsuario implements RegistrarUsuarioUseCase {
 
     private final UsuarioRepositoryPort usuarioRepository;
     private final PasswordHasherPort passwordHasher;
 
     public ServicioRegistroUsuario(UsuarioRepositoryPort usuarioRepository,
-                                    PasswordHasherPort passwordHasher) {
+                                    PasswordHasherPort passwordHasher, UsuarioJpaRepository usuarioJpaRepository) {
         this.usuarioRepository = usuarioRepository;
         this.passwordHasher = passwordHasher;
     }
 
     @Override
     public Usuario registrar(String nombre, String email, String passwordPlano) {
-        throw new UnsupportedOperationException("TODO: implementar");
+        if (usuarioRepository.existePorEmail(email)) {
+            throw new EmailYaRegistradoException(email);
+        }
+
+        String passwordHash = passwordHasher.hashear(passwordPlano);
+
+        Usuario nuevoUsuario = new Usuario(
+            null, 
+            nombre,
+            email, 
+            passwordHash,
+            Rol.USER,
+            true
+        );
+
+        return usuarioRepository.guardar(nuevoUsuario);
     }
 }

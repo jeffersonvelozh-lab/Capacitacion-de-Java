@@ -1,5 +1,6 @@
 package com.gestiontarea.demo.application.port.out;
 
+import java.util.List;
 import java.util.Optional;
 
 import com.gestiontarea.demo.domain.models.Usuario;
@@ -14,5 +15,7 @@ public interface UsuarioRepositoryPort {
 
     boolean existePorEmail(String email);
 
-    // TODO: agrega los metodos que necesites (listarTodos, eliminar, etc.)
+    List<Usuario> listarTodos();
+
+    // agrega los metodos que necesites (listarTodos, eliminar, etc.)
 }

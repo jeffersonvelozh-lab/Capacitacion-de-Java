@@ -1,14 +1,15 @@
 package com.gestiontarea.demo.application.service;
 
-import java.util.Optional;
+import org.springframework.stereotype.Service;
 
 import com.gestiontarea.demo.application.port.in.AutenticarUsuarioUseCase;
 import com.gestiontarea.demo.application.port.out.PasswordHasherPort;
 import com.gestiontarea.demo.application.port.out.TokenGeneratorPort;
 import com.gestiontarea.demo.application.port.out.UsuarioRepositoryPort;
 import com.gestiontarea.demo.domain.models.Usuario;
+import com.gestiontarea.demo.exception.CredencialesInvalidasException;
 
-
+@Service 
 public class ServicioAutenticacion implements AutenticarUsuarioUseCase {
 
     private final UsuarioRepositoryPort usuarioRepository;
@@ -25,25 +26,17 @@ public class ServicioAutenticacion implements AutenticarUsuarioUseCase {
 
     @Override
     public String login(String email, String passwordPlano) {
-        Optional<Usuario> usuarioOpt = usuarioRepository.buscarPorEmail(email);
+        Usuario usuario = usuarioRepository.buscarPorEmail(email)
+            .orElseThrow(CredencialesInvalidasException::new);
 
-        // TODO: reemplaza esto por una excepcion de dominio propia
-        // (ej. CredencialesInvalidasException) que luego el @ControllerAdvice
-        // traduzca a un 401. Lanzar RuntimeException generico no es buena practica.
-        if (usuarioOpt.isEmpty()) {
-            throw new RuntimeException("Credenciales invalidas");
+        if (!passwordHasher.verificar(passwordPlano, usuario.getPasswordHash())){
+            throw new CredencialesInvalidasException();
         }
-
-        Usuario usuario = usuarioOpt.get();
 
         if (!usuario.isActivo()) {
-            throw new RuntimeException("Usuario inactivo");
+            throw new CredencialesInvalidasException();
         }
-
-        if (!passwordHasher.verificar(passwordPlano, usuario.getPasswordHash())) {
-            throw new RuntimeException("Credenciales invalidas");
-        }
-
+       
         return tokenGenerator.generar(usuario);
     }
     

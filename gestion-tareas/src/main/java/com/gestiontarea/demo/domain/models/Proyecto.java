@@ -1,7 +1,7 @@
 package com.gestiontarea.demo.domain.models;
 
 /**
- * TODO: define los campos (id, nombre, descripcion, propietario, tareas?)
+ * define los campos (id, nombre, descripcion, propietario, tareas?)
  * Pregunta de diseno: ¿Proyecto conoce su lista de Tareas, o Tarea conoce su Proyecto (unidireccional)?
  * Para un CRUD simple, unidireccional (Tarea -> Proyecto) suele bastar y evita ciclos.
  */
@@ -13,6 +13,9 @@ public class Proyecto {
     private Long propietarioId;
 
     public Proyecto(Long id, String nombre, String descripcion, Long propietarioId) {
+        if (nombre == null || nombre.isBlank()) {
+           throw new IllegalArgumentException("El nombre del proyecto no puede estar vacío");
+       }
         this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
@@ -23,4 +26,8 @@ public class Proyecto {
     public String getNombre() { return nombre; }
     public String getDescripcion() { return descripcion; }
     public Long getPropietarioId() { return propietarioId; }
+
+    public void setNombre(String nombre){ this.nombre = nombre; }
+    public void setDescripcion(String descripcion){ this.descripcion = descripcion; }
+    public void setPropietarioId(Long propietarioId){ this.propietarioId = propietarioId; }
 }

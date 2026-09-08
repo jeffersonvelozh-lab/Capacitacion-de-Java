@@ -4,8 +4,8 @@ package com.gestiontarea.demo.domain.models;
  * Modelo de dominio puro. NO lleva anotaciones de Spring ni JPA:
  * esta clase no sabe que existe una base de datos ni un framework web.
  *
- * TODO: define los campos reales (nombre, email, passwordHash, rol, activo...)
- * TODO: agrega comportamiento de dominio si aplica, ej: usuario.esAdmin()
+ *  define los campos reales (nombre, email, passwordHash, rol, activo...)
+ *  agrega comportamiento de dominio si aplica, ej: usuario.esAdmin()
  */
 
 public class Usuario {
@@ -29,7 +29,7 @@ public class Usuario {
         return rol == Rol.ADMIN;
     }
 
-    // TODO: getters (y setters solo si realmente los necesitas; preferir inmutabilidad)
+    // getters (y setters solo si realmente los necesitas; preferir inmutabilidad)
 
     public Long getId() { return id; }
     public String getNombre() { return nombre; }
@@ -37,4 +37,10 @@ public class Usuario {
     public String getPasswordHash() { return passwordHash; }
     public Rol getRol() { return rol; }
     public boolean isActivo() { return activo; }
+
+    public void setNombre(String nombre) { this.nombre = nombre; }
+    public void setEmail(String email) { this.email = email; }
+    public void setPasswordHash(String passwordHash) { this.passwordHash = passwordHash; }
+    public void setRol(Rol rol) { this.rol = rol; }
+    public void setActivo(boolean activo) { this.activo = activo; }
 }
