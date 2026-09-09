@@ -8,6 +8,4 @@ public record RegistroRequest(
     @NotBlank String nombre, 
     @NotBlank @Email String email,
     @NotBlank @Size(min = 8, message = "La password debe de tener al menos 8 caracteres") String password
-) {
-    
-}
+) {}

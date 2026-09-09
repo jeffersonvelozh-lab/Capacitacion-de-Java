@@ -35,6 +35,8 @@ public class TareaEntity {
     @JoinColumn(name = "asignado_a_id")
     private UsuarioEntity asignadoA;
 
+    protected TareaEntity(){}
+
     public TareaEntity(String titulo, String descripcion, EstadoTarea estado, 
         ProyectoEntity proyecto, UsuarioEntity asignadoA) {
 

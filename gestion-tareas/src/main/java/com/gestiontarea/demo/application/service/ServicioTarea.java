@@ -8,11 +8,14 @@ import com.gestiontarea.demo.application.port.in.GestionarTareaUseCase;
 import com.gestiontarea.demo.application.port.out.ProyectoRepositoryPort;
 import com.gestiontarea.demo.application.port.out.TareaRepositoryPort;
 import com.gestiontarea.demo.domain.models.EstadoTarea;
+import com.gestiontarea.demo.domain.models.Proyecto;
+import com.gestiontarea.demo.domain.models.Rol;
 import com.gestiontarea.demo.domain.models.Tarea;
+import com.gestiontarea.demo.exception.AccesoDenegadoException;
 import com.gestiontarea.demo.exception.RecursoNoEncontradoException;
 
 /**
- * TODO: implementa el CRUD de Tarea.
+ * 
  * Idea para practicar logica de dominio real: en vez de simplemente hacer
  * "setEstado(nuevoEstado)", valida transiciones legales dentro del propio
  * modelo Tarea (ej: no se puede pasar de PENDIENTE a COMPLETADA sin pasar
@@ -33,9 +36,9 @@ public class ServicioTarea implements GestionarTareaUseCase {
     }
 
     @Override
-    public Tarea crear(String titulo, String descripcion, Long proyectoId) {
-        proyectoRepository.buscarPorId(proyectoId)
-            .orElseThrow(() -> new RecursoNoEncontradoException("Proyecto no encontrado: " + proyectoId));
+    public Tarea crear(String titulo, String descripcion, Long proyectoId, Long usuarioActualId, Rol rolUsuarioActual) {
+        Proyecto proyecto = buscarProyectoOLanzar(proyectoId);
+        verificarPermisoSobreProyecto(proyecto, usuarioActualId, rolUsuarioActual);
         
         Tarea tarea = new Tarea(null, titulo, descripcion, EstadoTarea.PENDIENTE, proyectoId, null);
         return tareaRepository.guardar(tarea);
@@ -52,8 +55,12 @@ public class ServicioTarea implements GestionarTareaUseCase {
     }
 
     @Override
-    public Tarea asignar(Long tareaId, Long usuarioId) {
-        Tarea tarea = buscarOLanzar(usuarioId);
+    public Tarea asignar(Long tareaId, Long usuarioId, Long usuarioActualId, Rol rolUsuarioActual) {
+        Tarea tarea = buscarOLanzar(tareaId);
+
+        Proyecto proyecto = buscarProyectoOLanzar(tarea.getProyectoId());
+        verificarPermisoSobreProyecto(proyecto, usuarioActualId, rolUsuarioActual);
+
         tarea.asignar(usuarioId);
         return tareaRepository.guardar(tarea);
     }
@@ -74,5 +81,18 @@ public class ServicioTarea implements GestionarTareaUseCase {
     private Tarea buscarOLanzar(Long id) {
         return tareaRepository.buscarPorId(id)
                 .orElseThrow(() -> new RecursoNoEncontradoException("Tarea no encontrada: " + id));
+    }
+
+    private Proyecto buscarProyectoOLanzar(Long id) {
+        return proyectoRepository.buscarPorId(id)
+                .orElseThrow(() -> new RecursoNoEncontradoException("Proyecto no encontrado: " + id));
+    }
+
+    private void verificarPermisoSobreProyecto(Proyecto proyecto, Long usuarioActualId, Rol rolUsuarioActual) {
+        boolean esPropietario = proyecto.getPropietarioId().equals(usuarioActualId);
+        boolean esAdmin = rolUsuarioActual == Rol.ADMIN;
+        if (!esPropietario && !esAdmin) {
+            throw new AccesoDenegadoException("No tienes permiso sobre el proyecto de esta tarea");
+        }
     }
 }

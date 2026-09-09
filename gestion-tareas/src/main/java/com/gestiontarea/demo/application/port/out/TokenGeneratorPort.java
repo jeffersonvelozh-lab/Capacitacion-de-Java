@@ -14,5 +14,5 @@ public interface TokenGeneratorPort {
      * decide si prefieres lanzar una excepcion de dominio en vez de Optional
      */
     //String validarYObtenerSubject(String token);
-    Optional<String> validarYObtenerSubject(String token);
+    Optional<UsuarioAutenticado> validarYObtenerUsuario(String token);
 }

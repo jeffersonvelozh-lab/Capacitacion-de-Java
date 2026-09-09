@@ -1,6 +1,6 @@
 package com.gestiontarea.demo.application.service;
 
-import com.gestiontarea.demo.infrastructure.adapter.out.persistence.repository.UsuarioJpaRepository;
+
 import org.springframework.stereotype.Service;
 
 import com.gestiontarea.demo.application.port.in.RegistrarUsuarioUseCase;
@@ -17,7 +17,7 @@ public class ServicioRegistroUsuario implements RegistrarUsuarioUseCase {
     private final PasswordHasherPort passwordHasher;
 
     public ServicioRegistroUsuario(UsuarioRepositoryPort usuarioRepository,
-                                    PasswordHasherPort passwordHasher, UsuarioJpaRepository usuarioJpaRepository) {
+                                    PasswordHasherPort passwordHasher) {
         this.usuarioRepository = usuarioRepository;
         this.passwordHasher = passwordHasher;
     }

@@ -33,6 +33,8 @@ public class UsuarioEntity {
     @Column(nullable = false)
     private boolean activo = true;
 
+    protected UsuarioEntity(){}
+
     public UsuarioEntity(String nombre, String email, String passwordHash, Rol rol, boolean activo) {
         this.nombre = nombre;
         this.email = email;

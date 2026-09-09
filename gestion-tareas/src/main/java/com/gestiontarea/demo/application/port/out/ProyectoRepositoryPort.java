@@ -20,5 +20,4 @@ public interface ProyectoRepositoryPort {
 
     void eliminar(Long id);
 
-    // TODO: agrega paginacion (Pageable / Page<Proyecto>) cuando construyas el listado general
 }

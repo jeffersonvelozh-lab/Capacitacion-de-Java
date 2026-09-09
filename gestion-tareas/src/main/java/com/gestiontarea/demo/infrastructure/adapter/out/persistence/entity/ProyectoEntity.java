@@ -3,7 +3,6 @@ package com.gestiontarea.demo.infrastructure.adapter.out.persistence.entity;
 import jakarta.persistence.*;
 
 /**
- * completa los campos (nombre, descripcion, propietario).
  * Sugerencia: usa @ManyToOne hacia UsuarioEntity para "propietario",
  * con fetch = FetchType.LAZY (regla de oro en JPA: LAZY por defecto).
  */
@@ -24,6 +23,8 @@ public class ProyectoEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "propietario_id", nullable = false)
     private UsuarioEntity propietario;
+
+    protected  ProyectoEntity(){}
 
     public ProyectoEntity( String nombre, String descripcion, UsuarioEntity propietario) {
         this.nombre = nombre;

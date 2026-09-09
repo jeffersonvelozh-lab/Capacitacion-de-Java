@@ -8,6 +8,8 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.stereotype.Component;
 
 import com.gestiontarea.demo.application.port.out.TokenGeneratorPort;
+import com.gestiontarea.demo.application.port.out.UsuarioAutenticado;
+import com.gestiontarea.demo.domain.models.Rol;
 import com.gestiontarea.demo.domain.models.Usuario;
 
 import javax.crypto.SecretKey;
@@ -15,10 +17,11 @@ import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.Optional;
 
+
 /**
  * COMPLETO: implementacion del puerto usando la libreria jjwt.
- * Guarda el email como "subject" y el rol como claim custom -- util para
- * que el filtro de seguridad (JwtAuthenticationFilter) arme el
+ * Guarda el email como "subject", el rol y el userId como claim custom 
+ * -- util para que el filtro de seguridad (JwtAuthenticationFilter) arme el
  * Authentication de Spring sin volver a golpear la base de datos.
  */
 @Component
@@ -51,7 +54,7 @@ public class JwtTokenGeneratorAdapter implements TokenGeneratorPort {
     }
 
     @Override
-    public Optional<String> validarYObtenerSubject(String token) {
+    public Optional<UsuarioAutenticado> validarYObtenerUsuario(String token) {
         try {
             Claims claims = Jwts.parser()
                     .verifyWith(obtenerClave())
@@ -59,7 +62,12 @@ public class JwtTokenGeneratorAdapter implements TokenGeneratorPort {
                     .parseSignedClaims(token)
                     .getPayload();
 
-            return Optional.of(claims.getSubject());
+            Long id = claims.get("userId", Long.class);
+            String email = claims.getSubject();
+            Rol rol = Rol.valueOf(claims.get("rol", String.class));
+
+            return Optional.of( new UsuarioAutenticado(id, email, rol));
+
         } catch (JwtException | IllegalArgumentException e) {
             return Optional.empty();
         }

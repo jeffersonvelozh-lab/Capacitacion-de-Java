@@ -4,11 +4,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.gestiontarea.demo.application.port.in.AutenticarUsuarioUseCase;
+import com.gestiontarea.demo.application.port.in.RegistrarUsuarioUseCase;
+import com.gestiontarea.demo.domain.models.Usuario;
 import com.gestiontarea.demo.infrastructure.adapter.in.rest.dto.LoginRequest;
 import com.gestiontarea.demo.infrastructure.adapter.in.rest.dto.LoginResponse;
+import com.gestiontarea.demo.infrastructure.adapter.in.rest.dto.RegistroRequest;
+import com.gestiontarea.demo.infrastructure.adapter.in.rest.dto.RegistroResponse;
 
 import jakarta.validation.Valid;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -25,9 +31,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class AuthController {
     
     private final AutenticarUsuarioUseCase autenticarUsuarioUseCase;
+    private final RegistrarUsuarioUseCase registrarUsuarioUseCase;
 
-    public AuthController(AutenticarUsuarioUseCase autenticarUsuarioUseCase) {
+    public AuthController(AutenticarUsuarioUseCase autenticarUsuarioUseCase, 
+        RegistrarUsuarioUseCase registrarUsuarioUseCase
+    ) {
         this.autenticarUsuarioUseCase = autenticarUsuarioUseCase;
+        this.registrarUsuarioUseCase = registrarUsuarioUseCase;
     }
 
     @PostMapping("/login")
@@ -35,6 +45,19 @@ public class AuthController {
         String token = autenticarUsuarioUseCase.login(request.email(), request.password());
         return new LoginResponse(token);
     }
-    // TODO: agrega POST /api/auth/registro usando RegistrarUsuarioUseCase
-    // (sigue el mismo patron que login())
+
+    @PostMapping("/regsitro")
+    public ResponseEntity<RegistroResponse> registro(@RequestBody @Valid RegistroRequest request){
+        Usuario usuarioCreado = registrarUsuarioUseCase.registrar(
+            request.nombre(), request.email(), request.password());
+
+        RegistroResponse response = new RegistroResponse(
+            usuarioCreado.getId(),
+            usuarioCreado.getNombre(),
+            usuarioCreado.getEmail()
+        );
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
 }

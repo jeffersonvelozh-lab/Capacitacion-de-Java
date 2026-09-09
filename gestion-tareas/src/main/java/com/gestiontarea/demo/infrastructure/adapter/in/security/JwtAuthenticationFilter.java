@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.gestiontarea.demo.application.port.out.TokenGeneratorPort;
+import com.gestiontarea.demo.application.port.out.UsuarioAutenticado;
 
 import java.io.IOException;
 import java.util.List;
@@ -22,7 +23,7 @@ import java.util.Optional;
  * valida el JWT y, si es valido, deja al usuario autenticado en el SecurityContext
  * para el resto del request.
  *
- * TODO: hoy solo mete el subject (email) como "principal" y le da una authority
+ * hoy solo mete el subject (email) como "principal" y le da una authority
  * generica. Cuando implementes ServicioAutenticacion/UsuarioRepository completos,
  * mejora esto para leer el claim "rol" del token y mapearlo a
  * new SimpleGrantedAuthority("ROLE_" + rol) -- eso es lo que @PreAuthorize("hasRole('ADMIN')")
@@ -48,13 +49,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             String token = header.substring(7);
 
             try {
-                Optional<String> email = tokenGenerator.validarYObtenerSubject(token);
+                Optional<UsuarioAutenticado> usuarioAutenticado = tokenGenerator.validarYObtenerUsuario(token);
 
-                // TODO: reemplazar authority fija por el rol real del claim del token
-                var authentication = new UsernamePasswordAuthenticationToken(
-                        email, null, List.of(new SimpleGrantedAuthority("ROLE_USER"))
-                );
-                SecurityContextHolder.getContext().setAuthentication(authentication);
+                usuarioAutenticado.ifPresent(usuario -> {
+                    var authentication = new UsernamePasswordAuthenticationToken(
+                            usuario, null,
+                            List.of(new SimpleGrantedAuthority("ROLE_" + usuario.rol().name()))
+                    );
+                    SecurityContextHolder.getContext().setAuthentication(authentication);
+                    });
             } catch (RuntimeException e) {
                 // Token invalido: no autenticamos, dejamos que Spring Security
                 // decida (401/403) segun la regla de la ruta.

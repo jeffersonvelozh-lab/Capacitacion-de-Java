@@ -16,7 +16,7 @@ import com.gestiontarea.demo.infrastructure.adapter.in.security.JwtAuthenticatio
  * y cuales requieren JWT valido. Sesion STATELESS porque la autenticacion
  * viaja en el token en cada request, no en una sesion de servidor.
  *
- * TODO cuando implementes roles: agrega reglas mas finas, ej:
+ * cuando implementes roles: agrega reglas mas finas, ej:
  *   .requestMatchers(HttpMethod.DELETE, "/api/proyectos/**").hasRole("ADMIN")
  * y anota los metodos de los use cases o controllers con @PreAuthorize
  * (requiere @EnableMethodSecurity, ya activado abajo).
