@@ -22,12 +22,6 @@ import java.util.Optional;
  * COMPLETO (borrador funcional): intercepta el header "Authorization: Bearer <token>",
  * valida el JWT y, si es valido, deja al usuario autenticado en el SecurityContext
  * para el resto del request.
- *
- * hoy solo mete el subject (email) como "principal" y le da una authority
- * generica. Cuando implementes ServicioAutenticacion/UsuarioRepository completos,
- * mejora esto para leer el claim "rol" del token y mapearlo a
- * new SimpleGrantedAuthority("ROLE_" + rol) -- eso es lo que @PreAuthorize("hasRole('ADMIN')")
- * necesita para funcionar.
  */
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {

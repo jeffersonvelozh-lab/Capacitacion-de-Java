@@ -2,6 +2,7 @@ package com.gestiontarea.demo.infrastructure.adapter.out.security;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
+
 @ConfigurationProperties(prefix = "app.jwt")
 public class JwtProperties {
 

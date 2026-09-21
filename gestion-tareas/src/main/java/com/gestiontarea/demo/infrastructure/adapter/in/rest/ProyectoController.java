@@ -16,7 +16,6 @@ import com.gestiontarea.demo.domain.models.Rol;
 import com.gestiontarea.demo.infrastructure.adapter.in.rest.dto.ProyectoRequest;
 import com.gestiontarea.demo.infrastructure.adapter.in.rest.dto.ProyectoResponse;
 
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import jakarta.validation.Valid;
 
 @RestController
@@ -29,7 +28,7 @@ public class ProyectoController {
     }
 
     @PostMapping
-    public ResponseEntity<ProyectoResponse> crear(@RequestBody @Valid ProyectoRequest request) {
+    public ResponseEntity<ProyectoResponse> crear(@RequestBody ProyectoRequest request) {
         Proyecto creado = gestionarProyectoUseCase.crear(
                 request.nombre(), request.descripcion(), usuarioActualId());
 
